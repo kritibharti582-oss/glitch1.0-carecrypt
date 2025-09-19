@@ -27,6 +27,7 @@ export default function Therapists() {
                 <span className="fee">₹ {t.fee}</span>
               </div>
               <div className="actions">
+                <button className="button-secondary" onClick={() => navigate(`/therapists/${t.id}`, { state: { therapist: t } })}>View Profile</button>
                 <button className="button-primary" onClick={() => navigate('/booking', { state: { therapist: t } })}>Book</button>
               </div>
             </div>
