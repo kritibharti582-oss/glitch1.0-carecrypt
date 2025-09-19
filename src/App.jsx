@@ -40,7 +40,7 @@ export default function App() {
       <BrowserRouter>
         <div className="app-shell">
           <header className="app-header">
-            <h1 className="brand-title">Therapy Room</h1>
+            <h1 className="brand-title"><span className="brand-logo" aria-hidden="true">🧠</span>CareCrypt</h1>
             <p className="brand-subtitle">Book online sessions with trusted therapists.</p>
           </header>
 
