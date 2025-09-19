@@ -14,7 +14,7 @@ export default function TherapistProfile() {
       <article className="profile-card">
         <img className="profile-avatar" src={t.photo} alt={`${t.name} profile photo`} />
         <div className="profile-content">
-          <h2 className="section-title" style={{ marginBottom: 4 }}>{t.name}</h2>
+          <h2 className="section-title title-tight">{t.name}</h2>
           <div className="meta-row">
             <span className="badge">★ {Number(t.rating || 4.8).toFixed(1)}</span>
             <span className="fee">₹ {t.fee || 1000}</span>
