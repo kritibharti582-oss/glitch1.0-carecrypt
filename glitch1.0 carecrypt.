@@ -1,0 +1,195 @@
+/therapy-room
+  ├── app.py                # Main backend logic
+  ├── templates/
+  │   ├── index.html        # Home page where users can see available psychiatrists
+  │   ├── book_appointment.html  # Page for booking an appointment
+  │   └── chat.html         # Page to chat with the selected therapist
+  ├── static/
+  │   ├── style.css         # Basic styles
+  └── requirements.txt      # Project dependencies
+Flask==2.1.1
+Flask-SQLAlchemy==2.5.1
+Flask-Login==0.6.2
+pip install -r requirements.txt
+from flask import Flask, render_template, request, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, UserMixin, login_user, login_required, current_user, logout_user
+import random
+
+# Initialize the app and database
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'mysecretkey'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///therapy_room.db'
+db = SQLAlchemy(app)
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+
+# Database models
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(150), unique=True, nullable=False)
+    password = db.Column(db.String(150), nullable=False)
+    role = db.Column(db.String(50), nullable=False)  # 'client' or 'psychiatrist'
+
+class Appointment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    psychiatrist_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    client_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    time = db.Column(db.String(50), nullable=False)
+    paid = db.Column(db.Boolean, default=False)
+
+# Initialize some fake data for psychiatrists
+def create_fake_data():
+    if not User.query.filter_by(role='psychiatrist').first():
+        p1 = User(username='Dr. John', password='password', role='psychiatrist')
+        p2 = User(username='Dr. Sarah', password='password', role='psychiatrist')
+        db.session.add(p1)
+        db.session.add(p2)
+        db.session.commit()
+
+@app.route('/')
+def index():
+    psychiatrists = User.query.filter_by(role='psychiatrist').all()
+    return render_template('index.html', psychiatrists=psychiatrists)
+
+@app.route('/book_appointment/<int:psychiatrist_id>', methods=['GET', 'POST'])
+@login_required
+def book_appointment(psychiatrist_id):
+    if request.method == 'POST':
+        time = request.form.get('time')
+        appointment = Appointment(psychiatrist_id=psychiatrist_id, client_id=current_user.id, time=time)
+        db.session.add(appointment)
+        db.session.commit()
+        return redirect(url_for('index'))
+
+    psychiatrist = User.query.get(psychiatrist_id)
+    return render_template('book_appointment.html', psychiatrist=psychiatrist)
+
+@app.route('/chat/<int:appointment_id>', methods=['GET', 'POST'])
+@login_required
+def chat(appointment_id):
+    appointment = Appointment.query.get(appointment_id)
+    if not appointment or appointment.client_id != current_user.id:
+        return redirect(url_for('index'))
+
+    # Simulate chat
+    chat_history = [
+        {"from": "psychiatrist", "message": "Hello, how are you feeling today?"},
+        {"from": "client", "message": "I'm feeling a bit anxious."}
+    ]
+    if request.method == 'POST':
+        message = request.form.get('message')
+        chat_history.append({"from": "client", "message": message})
+    
+    return render_template('chat.html', chat_history=chat_history, appointment=appointment)
+
+# Login system for demo purposes
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        user = User.query.filter_by(username=username).first()
+        if user and user.password == password:
+            login_user(user)
+            return redirect(url_for('index'))
+    return render_template('login.html')
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+# Running the application
+if __name__ == '__main__':
+    db.create_all()  # Create the database tables
+    create_fake_data()  # Create some fake psychiatrist data
+    app.run(debug=True)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Therapy Room</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Welcome to the Therapy Room</h1>
+    {% if current_user.is_authenticated %}
+        <p>Hello, {{ current_user.username }}!</p>
+        <p>Select a psychiatrist for an appointment:</p>
+        <ul>
+            {% for psychiatrist in psychiatrists %}
+                <li>
+                    {{ psychiatrist.username }} 
+                    <a href="{{ url_for('book_appointment', psychiatrist_id=psychiatrist.id) }}">Book Appointment</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p><a href="{{ url_for('login') }}">Login</a> to make an appointment.</p>
+    {% endif %}
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Appointment</title>
+</head>
+<body>
+    <h1>Book Appointment with {{ psychiatrist.username }}</h1>
+    <form method="POST">
+        <label for="time">Choose a time:</label>
+        <input type="text" id="time" name="time" required>
+        <button type="submit">Book Appointment</button>
+    </form>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+</head>
+<body>
+    <h1>Chat with Your Therapist</h1>
+    <ul>
+        {% for message in chat_history %}
+            <li><strong>{{ message.from }}:</strong> {{ message.message }}</li>
+        {% endfor %}
+    </ul>
+    <form method="POST">
+        <label for="message">Type your message:</label>
+        <input type="text" id="message" name="message">
+        <button type="submit">Send</button>
+    </form>
+</body>
+</html>
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+h1 {
+    color: #2c3e50;
+}
+
+ul {
+    list-style-type: none;
+}
+
+form {
+    margin-top: 20px;
+}
+
+input, button {
+    padding: 10px;
+    margin-top: 10px;
+}
+python app.py
+
