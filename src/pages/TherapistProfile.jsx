@@ -19,7 +19,7 @@ export default function TherapistProfile() {
             <span className="badge">★ {Number(t.rating || 4.8).toFixed(1)}</span>
             <span className="fee">₹ {t.fee || 1000}</span>
           </div>
-          <p className="section-text" style={{ marginTop: 8 }}>{t.spec}</p>
+          <p className="section-text paragraph-gap">{t.spec}</p>
         </div>
       </article>
       <div className="form-card">
