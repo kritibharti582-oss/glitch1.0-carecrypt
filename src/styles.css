@@ -1,0 +1,26 @@
+:root {
+  --surface: #ffffff;
+  --text: #1f2a37;
+  --muted: #6b7280;
+  --primary: #2563eb;
+  --primary-contrast: #ffffff;
+  --border: #e5e7eb;
+  --bg: #f8fafc;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body { margin: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; background: var(--bg); color: var(--text); }
+
+.app-shell { display: flex; flex-direction: column; min-height: 100%; }
+.app-header { padding: 32px 20px; text-align: center; }
+.brand-title { margin: 0; font-size: 32px; font-weight: 700; }
+.brand-subtitle { margin: 8px 0 0; color: var(--muted); font-size: 16px; }
+
+.content-area { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.info-card { width: 100%; max-width: 720px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+.section-title { margin: 0 0 8px; font-size: 20px; }
+.section-text { margin: 0 0 16px; color: var(--muted); }
+.actions { display: flex; gap: 12px; }
+.button-primary { display: inline-block; padding: 10px 16px; background: var(--primary); color: var(--primary-contrast); border-radius: 8px; text-decoration: none; font-weight: 600; }
+.button-primary:hover { filter: brightness(0.95); }
