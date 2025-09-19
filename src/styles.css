@@ -14,7 +14,7 @@
 html, body, #root { height: 100%; }
 body { margin: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; background: var(--bg); color: var(--text); }
 
-.app-shell { display: flex; flex-direction: column; min-height: 100%; }
+.app-shell { display: flex; flex-direction: column; min-height: 100%; position: relative; overflow: hidden; }
 .app-header { padding: 24px 16px; text-align: center; background: radial-gradient(1000px 300px at 50% -100px, var(--soft), transparent 60%), linear-gradient(180deg, var(--soft), transparent); }
 .brand-title { margin: 0; font-size: 28px; font-weight: 700; }
 .brand-logo { display: inline-block; margin-right: 8px; font-size: 26px; line-height: 1; vertical-align: -2px; }
@@ -67,6 +67,10 @@ body { margin: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto
 
 /* Screen container */
 .screen { display: flex; flex-direction: column; gap: 12px; }
+
+/* Decorative background */
+.app-shell::before { content: "❤️"; position: absolute; top: -18px; right: -6px; font-size: 120px; opacity: 0.1; transform: rotate(16deg); pointer-events: none; }
+.app-shell::after { content: "🤗"; position: absolute; left: -10px; bottom: 76px; font-size: 140px; opacity: 0.1; transform: rotate(-12deg); pointer-events: none; }
 
 /* Bottom Nav */
 .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; display: grid; grid-template-columns: repeat(5, 1fr); background: var(--surface); border-top: 1px solid var(--border); padding: 8px; }
