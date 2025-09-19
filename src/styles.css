@@ -79,3 +79,8 @@ body { margin: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto
 .profile-card { display: grid; grid-template-columns: 96px 1fr; gap: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 12px; }
 .profile-avatar { width: 96px; height: 96px; border-radius: 14px; object-fit: cover; }
 .profile-content { display: flex; flex-direction: column; }
+
+/* Spacing helpers */
+.section-spacer { margin-top: 16px; }
+.title-tight { margin-bottom: 4px; }
+.paragraph-gap { margin-top: 8px; }
