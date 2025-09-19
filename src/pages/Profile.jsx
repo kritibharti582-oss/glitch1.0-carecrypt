@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 export default function Profile() {
   const [history, setHistory] = useState([])
@@ -17,7 +17,7 @@ export default function Profile() {
         <p className="card-text">Email: you@example.com</p>
       </div>
 
-      <h3 className="section-title" style={{ marginTop: 16 }}>Bookings & History</h3>
+      <h3 className="section-title section-spacer">Bookings & History</h3>
       <div className="list">
         {history.length === 0 && (
           <p className="section-text">No past bookings yet.</p>
