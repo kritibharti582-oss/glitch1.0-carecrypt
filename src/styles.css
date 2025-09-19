@@ -71,3 +71,11 @@ body { margin: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto
 .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; display: grid; grid-template-columns: repeat(5, 1fr); background: var(--surface); border-top: 1px solid var(--border); padding: 8px; }
 .nav-item { text-align: center; color: var(--muted); text-decoration: none; padding: 8px 6px; border-radius: 10px; font-size: 12px; font-weight: 600; }
 .nav-item.active { color: var(--text); background: #f1f5f9; }
+
+/* Onboarding */
+.checklist { margin: 0 0 12px; padding: 0 0 0 18px; color: var(--muted); }
+
+/* Profile page */
+.profile-card { display: grid; grid-template-columns: 96px 1fr; gap: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 12px; }
+.profile-avatar { width: 96px; height: 96px; border-radius: 14px; object-fit: cover; }
+.profile-content { display: flex; flex-direction: column; }
