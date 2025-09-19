@@ -21,10 +21,6 @@ export default function Home() {
           <h3 className="card-title">Chat, Video, In‑person</h3>
           <p className="card-text">Choose the mode that suits you best for your comfort and schedule.</p>
         </div>
-        <div className="info-card">
-          <h3 className="card-title">Secure Payments</h3>
-          <p className="card-text">Pay with UPI, cards, or wallets with industry‑standard security.</p>
-        </div>
       </div>
     </section>
   )
